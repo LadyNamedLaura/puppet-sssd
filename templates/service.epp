@@ -1,0 +1,8 @@
+<%- | String $name,
+      Hash   $options,
+| -%>
+[<%= $name %>]
+<% $options.each |$key, $val| {
+if $val != undef { -%>
+<%= $key %> = <%= $val %>
+<% } } %>
