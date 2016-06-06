@@ -15,7 +15,7 @@ class sssd (
 
   package { 'sssd':
     ensure => installed,
-  }
+  } ->
   service { 'sssd':
     ensure => running,
     enable => true,
