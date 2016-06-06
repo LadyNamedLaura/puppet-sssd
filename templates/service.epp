@@ -1,5 +1,5 @@
 <%- | String $name,
-      Hash   $options,
+      Hash[String,String] $options,
 | -%>
 [<%= $name %>]
 <% $options.each |$key, $val| {
