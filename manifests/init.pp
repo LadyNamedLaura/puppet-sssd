@@ -62,7 +62,7 @@ class sssd (
     }
   }
   if $enable_pam {
-    sssd:service{'pam':}
+    sssd::service{'pam':}
     pam {
       default:
         ensure    => present,
