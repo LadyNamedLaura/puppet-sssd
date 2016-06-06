@@ -4,7 +4,8 @@
 #
 class sssd (
   $conf_path = '/tmp/sssd.conf',
-  $default_services = ['nss','pam']
+  $enable_nss = true,
+  $enable_pam = true,
 ) {
   concat { $conf_path:
     ensure => present,
@@ -41,22 +42,57 @@ class sssd (
       order   => '09',
   }
 
-  sssd::service { $default_services:  }
-  nsswitch::entry {
-    default:
-      value => 'sss',
-      order => '60',
+  if $enable_nss {
+    sssd::service {'nss':  }
+    nsswitch::entry {
+      default:
+        value => 'sss',
+        order => '60',
+        ;
+      "sssd_passwd":
+        database => 'passwd';
+      "sssd_shadow":
+        database => 'shadow';
+      "sssd_group":
+        database => 'group';
+      "sssd_netgroup":
+        database => 'netgroup';
+      "sssd_automount":
+        database => 'automount';
+    }
+  }
+  if $enable_pam {
+    sssd:service{'pam':}
+    pam {
+      default:
+        ensure    => present,
+        service   => 'system-auth',
+        module    => 'pam_sss.so',
       ;
-    "sssd_passwd":
-      database => 'passwd';
-    "sssd_shadow":
-      database => 'shadow';
-    "sssd_group":
-      database => 'group';
-    "sssd_netgroup":
-      database => 'netgroup';
-    "sssd_automount":
-      database => 'automount';
+      'Set sss entry to system-auth auth':
+        type      => 'auth',
+        control   => 'sufficient',
+        arguments => 'use_first_pass',
+        position  => 'before module pam_deny.so',
+      ;
+      'Set sss entry to system-auth session':
+        type      => 'session',
+        control   => 'sufficient',
+        position  => 'before module pam_unix.so',
+      ;
+      'Set sss entry to system-auth password':
+        type      => 'password',
+        control   => 'sufficient',
+        arguments => 'authtok',
+        position  => 'before module pam_deny.so',
+      ;
+      'Set sss entry to system-auth password':
+        type      => 'account',
+        control   => '[default=bad success=ok user_unknown=ignore authinfo_unavail=ignore]',
+        arguments => 'authtok',
+        position  => 'before module pam_deny.so',
+      ;
+    }
   }
 
 }
