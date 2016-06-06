@@ -3,12 +3,14 @@
 # == Class: sssd
 #
 class sssd (
-  $conf_path = '/tmp/sssd.conf',
+  $conf_path = '/etc/sssd/sssd.conf',
   $enable_nss = true,
   $enable_pam = true,
 ) {
   concat { $conf_path:
     ensure => present,
+    mode   => '600',
+    owner  => 'root'
   }
 
   ## order:
