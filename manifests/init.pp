@@ -13,6 +13,13 @@ class sssd (
     owner  => 'root'
   }
 
+  package { 'sssd':
+    ensure => installed,
+  }
+  service { 'sssd':
+    ensure => running,
+    enable => true,
+  }
   ## order:
   # 0* => [sssd]
   #   01 => main
