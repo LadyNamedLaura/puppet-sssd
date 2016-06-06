@@ -88,7 +88,7 @@ class sssd (
         arguments => 'authtok',
         position  => 'before module pam_deny.so',
       ;
-      'Set sss entry to system-auth password':
+      'Set sss entry to system-auth account':
         type      => 'account',
         control   => '[default=bad success=ok user_unknown=ignore authinfo_unavail=ignore]',
         arguments => 'authtok',
