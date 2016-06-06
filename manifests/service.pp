@@ -1,7 +1,7 @@
 # == Class: sssd::service
 #
 define sssd::service(
-  $options = {},
+  Hash[String] $options = {},
 ) {
   include ::sssd
 
