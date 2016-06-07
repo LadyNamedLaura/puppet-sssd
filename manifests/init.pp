@@ -102,6 +102,36 @@ class sssd (
         position  => 'before module pam_deny.so',
       ;
     }
+    pam {
+      default:
+        ensure    => present,
+        service   => 'password-auth',
+        module    => 'pam_sss.so',
+      ;
+      'Set sss entry to password-auth auth':
+        type      => 'auth',
+        control   => 'sufficient',
+        arguments => 'use_first_pass',
+        position  => 'before module pam_deny.so',
+      ;
+      'Set sss entry to password-auth session':
+        type      => 'session',
+        control   => 'sufficient',
+        position  => 'before module pam_unix.so',
+      ;
+      'Set sss entry to password-auth password':
+        type      => 'password',
+        control   => 'sufficient',
+        arguments => 'authtok',
+        position  => 'before module pam_deny.so',
+      ;
+      'Set sss entry to password-auth account':
+        type      => 'account',
+        control   => '[default=bad success=ok user_unknown=ignore authinfo_unavail=ignore]',
+        arguments => 'authtok',
+        position  => 'before module pam_deny.so',
+      ;
+    }
   }
 
 }
