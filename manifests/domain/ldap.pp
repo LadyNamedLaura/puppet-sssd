@@ -23,7 +23,7 @@ define sssd::domain::ldap (
     cache_credentials         => true,
     entry_cache_timeout       => $cache_timeout,
     ldap_uri                  => $uri,
-    ldap_schame               => $schema,
+    ldap_schema               => $schema,
     ldap_search_base          => $search_base,
     ldap_id_use_start_tls     => $start_tls,
     ldap_tls_reqcert          => $tls_reqcert,
