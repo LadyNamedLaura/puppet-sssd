@@ -3,8 +3,8 @@
 define sssd::domain::ldap (
   $uri,
   $search_base,
-  $authtok_type    = undef,
-  $authtok         = undef,
+  $bind_authtok_type    = undef,
+  $bind_authtok         = undef,
   $bind_dn         = undef,
   $schema          = 'rfc2307',
   $start_tls       = true,
@@ -28,8 +28,8 @@ define sssd::domain::ldap (
     ldap_id_use_start_tls     => $start_tls,
     ldap_tls_reqcert          => $tls_reqcert,
     ldap_tls_cacert           => $tls_cacert,
-    ldap_default_authtok_type => $authtok_type,
-    ldap_default_authtok      => $authtok,
+    ldap_default_authtok_type => $bind_authtok_type,
+    ldap_default_authtok      => $bind_authtok,
     ldap_default_bind_dn      => $bind_dn,
     ldap_network_timeout      => $network_timeout,
   }
