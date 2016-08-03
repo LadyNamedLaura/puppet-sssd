@@ -1,5 +1,5 @@
 <%- | String $name,
-      $options,
+      Hash   $options,
 | -%>
 [domain/<%= $name %>]
 <% $options.each |$key, $val| {
