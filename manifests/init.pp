@@ -10,7 +10,8 @@ class sssd (
   concat { $conf_path:
     ensure => present,
     mode   => '600',
-    owner  => 'root'
+    owner  => 'root',
+    notify => Service['sssd'],
   }
 
   package { 'sssd':
